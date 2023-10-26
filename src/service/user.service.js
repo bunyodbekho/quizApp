@@ -15,3 +15,7 @@ export const getUserByID = (id) => {
 export const updateUserData = (id, body) => {
   return request.put(`/${id}`, body);
 };
+
+export const createUserData =(body) => {
+  return request.post("", body)
+}

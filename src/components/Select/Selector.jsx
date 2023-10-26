@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { getUsers } from "../../service/user.service";
-// import { setUserId } from "../../store/userSlice";
 
-export default function Selector({ setCurUserId }) {
+export default function Selector({ setCurUserId, setUserData }) {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
@@ -30,7 +29,10 @@ export default function Selector({ setCurUserId }) {
       options={options}
       style={styles}
       width={300}
-      onChange={(curId) => setCurUserId(curId.value)}
+      onChange={(curId) => {
+        setCurUserId(curId.value);
+        setUserData("");
+      }}
     />
   );
 }

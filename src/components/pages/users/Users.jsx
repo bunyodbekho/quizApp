@@ -9,7 +9,7 @@ import { getUserByID } from "../../../service/user.service";
 
 export default function Users() {
   const [curUserId, setCurUserId] = useState("");
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     if (!curUserId) return;
@@ -33,13 +33,17 @@ export default function Users() {
       alignItems="center"
       justifyContent="center"
     >
-      <Selector setCurUserId={setCurUserId} />
-      {curUserId && <DisplayTable userData={userData} />}
-      <Link to="/create-user">
-        <Button colorScheme="blue" color={"#fff"}>
-          Create user
-        </Button>
-      </Link>
+      <Flex gap={"20px"}>
+        <Selector setCurUserId={setCurUserId} setUserData={setUserData} />
+        <Link to="/create-user">
+          <Button colorScheme="blue" color={"#fff"}>
+            +
+          </Button>
+        </Link>
+      </Flex>
+      {curUserId && userData && (
+        <DisplayTable userData={userData} curUserId={curUserId} />
+      )}
     </Flex>
   );
 }
