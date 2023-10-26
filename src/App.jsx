@@ -1,42 +1,19 @@
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import { Heading, Flex, Link, Box } from "@chakra-ui/react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Router from "./router/router";
+import { Flex } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import { BrowserRouter } from "react-router-dom";
+import { useState } from "react";
 
-const tempData = {
-  main: "Main",
-  tests: "Tests",
-  groups: "Groups",
-};
+export default function App() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-function App() {
   return (
-    <Router>
-      <div className="app">
-        <Flex flexDirection={"column"}>
-          <div className="maincomp">
-            <Routes>
-              <Route
-                path="/"
-                element={<Header>{tempData.main}</Header>}
-              ></Route>
-              <Route
-                path="/tests"
-                element={<Header>{tempData.tests}</Header>}
-              ></Route>
-              <Route
-                path="/groups"
-                element={<Header>{tempData.groups}</Header>}
-              ></Route>
-            </Routes>
-          </div>
-          <div className="sidebar">
-            <Sidebar />
-          </div>
-        </Flex>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <Flex flexDirection={"column"}>
+        <Header onOpen={onOpen} />
+        <Router isOpen={isOpen} onClose={onClose} />
+      </Flex>
+    </BrowserRouter>
   );
 }
-
-export default App;
