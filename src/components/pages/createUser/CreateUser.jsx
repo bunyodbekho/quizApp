@@ -1,6 +1,7 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Input, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { createUserData } from "../../../service/user.service";
+import { Link } from "react-router-dom";
 
 const labelStyles = {
   fontSize: "20px",
@@ -11,7 +12,7 @@ const inputStyles = {
   border: "1px solid gray",
 };
 
-export default function CreateUser() {
+export default function CreateUser({ setIsOultlet }) {
   const {
     register,
     handleSubmit,
@@ -19,7 +20,11 @@ export default function CreateUser() {
     formState: { errors },
   } = useForm();
   return (
-    <form onSubmit={handleSubmit((data) => createUserData(data))}>
+    <form
+      onSubmit={handleSubmit((data) => {
+        createUserData(data);
+      })}
+    >
       <Flex
         flexDirection={"column"}
         gap={"10px"}
@@ -30,42 +35,49 @@ export default function CreateUser() {
         <label style={labelStyles} htmlFor="firstName">
           First Name:
         </label>
-        <input
+        <Input
           style={inputStyles}
           {...register("firstName")}
           placeholder="First Name"
           id="firstName"
+          required
         />
         <label style={labelStyles} htmlFor="lastName">
           Last Name:
         </label>
-        <input
+        <Input
           style={inputStyles}
           {...register("lastName")}
           placeholder="Last Name"
           id="lastName"
+          required
         />
         <label style={labelStyles} htmlFor="email">
           Email:
         </label>
-        <input
+        <Input
           {...register("email")}
           style={inputStyles}
           placeholder="Email"
           id="email"
+          required
         />
         <label style={labelStyles} htmlFor="password">
           Password:
         </label>
-        <input
+        <Input
           style={inputStyles}
           {...register("password", {
             minLength: { value: 8, message: "Min length is 8" },
           })}
           placeholder="Password"
           id="password"
+          required
         />
-        <input type="submit" />
+        <Link to="/users" onClick={() => setIsOultlet((cur) => !cur)}>
+          <Input type="submit" cursor={"pointer"} />
+          {/* <Button type="submit">Save</Button> */}
+        </Link>
       </Flex>
     </form>
   );

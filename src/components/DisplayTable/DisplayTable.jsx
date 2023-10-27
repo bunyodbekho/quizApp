@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Input } from "@chakra-ui/react";
 import { updateUserData } from "../../service/user.service";
+import { color } from "framer-motion";
 
 const labelStyles = {
   fontSize: "20px",
@@ -11,7 +12,7 @@ const inputStyles = {
   border: "1px solid gray",
 };
 
-export default function DisplayTable({ userData, curUserId }) {
+export default function DisplayTable({ data, curUserId }) {
   const {
     register,
     handleSubmit,
@@ -19,19 +20,15 @@ export default function DisplayTable({ userData, curUserId }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: userData?.firstName,
-      lastName: userData?.lastName,
-      id: userData?.id,
-      email: userData?.email,
-      password: userData?.password,
+      firstName: data?.firstName,
+      lastName: data?.lastName,
+      id: data?.id,
+      email: data?.email,
+      password: data?.password,
     },
   });
 
   console.log(errors);
-
-  function updateData(data) {
-    updateUserData(curUserId, data);
-  }
 
   return (
     <form onSubmit={handleSubmit((data) => updateUserData(curUserId, data))}>
@@ -39,7 +36,8 @@ export default function DisplayTable({ userData, curUserId }) {
         <label style={labelStyles} htmlFor="id">
           Id:
         </label>
-        <input
+        <Input
+          required
           style={inputStyles}
           {...register("id")}
           placeholder="Id"
@@ -49,7 +47,8 @@ export default function DisplayTable({ userData, curUserId }) {
         <label style={labelStyles} htmlFor="firstName">
           First Name:
         </label>
-        <input
+        <Input
+          required
           style={inputStyles}
           {...register("firstName")}
           placeholder="First Name"
@@ -58,7 +57,8 @@ export default function DisplayTable({ userData, curUserId }) {
         <label style={labelStyles} htmlFor="lastName">
           Last Name:
         </label>
-        <input
+        <Input
+          required
           style={inputStyles}
           {...register("lastName")}
           placeholder="Last Name"
@@ -67,7 +67,8 @@ export default function DisplayTable({ userData, curUserId }) {
         <label style={labelStyles} htmlFor="email">
           Email:
         </label>
-        <input
+        <Input
+          required
           {...register("email")}
           style={inputStyles}
           placeholder="Email"
@@ -76,7 +77,8 @@ export default function DisplayTable({ userData, curUserId }) {
         <label style={labelStyles} htmlFor="password">
           Password:
         </label>
-        <input
+        <Input
+          required
           style={inputStyles}
           {...register("password", {
             minLength: { value: 8, message: "Min length is 8" },
@@ -84,7 +86,8 @@ export default function DisplayTable({ userData, curUserId }) {
           placeholder="Password"
           id="password"
         />
-        <input type="submit" />
+
+        <Input type="submit" cursor={"pointer"} />
       </Flex>
     </form>
   );

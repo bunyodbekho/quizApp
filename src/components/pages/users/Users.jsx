@@ -1,13 +1,12 @@
 import { Flex, Button } from "@chakra-ui/react";
 import Selector from "../../Select/Selector";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import DisplayTable from "../../DisplayTable/DisplayTable";
 import { useState } from "react";
-import { getUsers } from "../../../service/user.service";
 import { useEffect } from "react";
 import { getUserByID } from "../../../service/user.service";
 
-export default function Users() {
+export default function Users({ isOutlet, setIsOultlet }) {
   const [curUserId, setCurUserId] = useState("");
   const [userData, setUserData] = useState("");
 
@@ -33,16 +32,27 @@ export default function Users() {
       alignItems="center"
       justifyContent="center"
     >
-      <Flex gap={"20px"}>
-        <Selector setCurUserId={setCurUserId} setUserData={setUserData} />
-        <Link to="/create-user">
-          <Button colorScheme="blue" color={"#fff"}>
-            +
-          </Button>
-        </Link>
-      </Flex>
-      {curUserId && userData && (
-        <DisplayTable userData={userData} curUserId={curUserId} />
+      {!isOutlet ? (
+        <>
+          <Flex gap={"20px"}>
+            <Selector setCurUserId={setCurUserId} setUserData={setUserData} />
+            <Link to="/users/create-user">
+              <Button
+                colorScheme="blue"
+                color={"#fff"}
+                onClick={() => setIsOultlet((cur) => !cur)}
+              >
+                +
+              </Button>
+            </Link>
+          </Flex>
+
+          {curUserId && userData && (
+            <DisplayTable data={userData} curUserId={curUserId} />
+          )}
+        </>
+      ) : (
+        <Outlet />
       )}
     </Flex>
   );

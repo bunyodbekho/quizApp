@@ -6,9 +6,11 @@ import Tests from "../components/pages/tests/Tests";
 import Users from "../components/pages/users/Users";
 import CreateUser from "../components/pages/createUser/CreateUser";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export default function Router({ isOpen, onClose }) {
   const token = useSelector((state) => state.user.token);
+  const [isOutlet, setIsOultlet] = useState(false);
 
   return (
     <Routes>
@@ -20,8 +22,17 @@ export default function Router({ isOpen, onClose }) {
         <Route path="exam" element={<Exam />} />
         <Route path="groups" element={<Groups />} />
         <Route path="tests" element={<Tests />} />
-        <Route path="users" element={<Users />} />
-        <Route path="create-user" element={<CreateUser />} />
+        <Route
+          path="users"
+          element={<Users isOutlet={isOutlet} setIsOultlet={setIsOultlet} />}
+        >
+          <Route
+            path="create-user"
+            element={
+              <CreateUser isOutlet={isOutlet} setIsOultlet={setIsOultlet} />
+            }
+          />
+        </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
 
