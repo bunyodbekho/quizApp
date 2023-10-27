@@ -1,4 +1,4 @@
-import { Flex, Input, Button } from "@chakra-ui/react";
+import { Flex, Input, Button, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { createUserData } from "../../../service/user.service";
 import { Link } from "react-router-dom";
@@ -12,19 +12,28 @@ const inputStyles = {
   border: "1px solid gray",
 };
 
-export default function CreateUser({ setIsOultlet }) {
+export default function CreateUser({ setIsOultlet, setCurUserId }) {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
+  function onSubmit(data) {
+    createUserData(data);
+
+    setIsOultlet((cur) => !cur);
+    setCurUserId((cur) => !cur);
+    toast({
+      title: "User created.",
+      description: "",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
   return (
-    <form
-      onSubmit={handleSubmit((data) => {
-        createUserData(data);
-      })}
-    >
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Flex
         flexDirection={"column"}
         gap={"10px"}
@@ -74,10 +83,7 @@ export default function CreateUser({ setIsOultlet }) {
           id="password"
           required
         />
-        <Link to="/users" onClick={() => setIsOultlet((cur) => !cur)}>
-          <Input type="submit" cursor={"pointer"} />
-          {/* <Button type="submit">Save</Button> */}
-        </Link>
+        <Input type="submit" cursor={"pointer"} />
       </Flex>
     </form>
   );

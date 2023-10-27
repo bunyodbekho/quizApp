@@ -10,8 +10,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Flex flexDirection={"column"}>
-        <Header onOpen={onOpen} />
-        <Router isOpen={isOpen} onClose={onClose} />
+        <Router onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
       </Flex>
     </BrowserRouter>
   );

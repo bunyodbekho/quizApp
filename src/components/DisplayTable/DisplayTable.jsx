@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Flex, Input } from "@chakra-ui/react";
+import { Flex, Input, useToast } from "@chakra-ui/react";
 import { updateUserData } from "../../service/user.service";
 import { color } from "framer-motion";
 
@@ -12,7 +12,13 @@ const inputStyles = {
   border: "1px solid gray",
 };
 
-export default function DisplayTable({ data, curUserId }) {
+export default function DisplayTable({
+  data,
+  curUserId,
+  setCurUserId,
+  setClearData,
+}) {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -87,7 +93,21 @@ export default function DisplayTable({ data, curUserId }) {
           id="password"
         />
 
-        <Input type="submit" cursor={"pointer"} />
+        <Input
+          type="submit"
+          cursor={"pointer"}
+          onClick={() => {
+            toast({
+              title: "Data updated.",
+              description: "",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+            setCurUserId("");
+            setClearData(true);
+          }}
+        />
       </Flex>
     </form>
   );
